@@ -1,18 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useQueryClient } from "@tanstack/react-query";
 import { DRIFT_ABI, DRIFT_ADDRESS } from "@/lib/contract";
 
 export function CastMessage() {
   const [message, setMessage] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const { writeContract, data: hash, isPending, error } = useWriteContract();
 
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
   });
+
+  // Refetch message count after successful transaction
+  useEffect(() => {
+    if (isSuccess) {
+      queryClient.invalidateQueries({ queryKey: ["readContract"] });
+    }
+  }, [isSuccess, queryClient]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
