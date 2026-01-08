@@ -36,4 +36,4 @@ export const DRIFT_ABI = [
 ] as const;
 
 // Local Anvil deployment address (update after deploying)
-export const DRIFT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3" as const;
+export const DRIFT_ADDRESS = "0xD25029cf9213c2Fc9cA4747720F72487Bf1E39A7" as const;
